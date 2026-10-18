@@ -8,8 +8,7 @@
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
 
-![Dashboard](<img width="1871" height="919" alt="imagem-dashboard" src="https://github.com/user-attachments/assets/48b54971-8197-4807-b6e7-09dbc64ba206" />
-)
+![Dashboard do Painel de Saúde da Carteira: KPIs de receita em risco e ranking de clientes por Health Score](docs/dashboard.png)
 
 ---
 

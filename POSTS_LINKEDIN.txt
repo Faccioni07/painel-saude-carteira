@@ -1,0 +1,80 @@
+==========================================================================
+OPÇÃO 1 — FOCO EM NEGÓCIOS / CUSTOMER SUCCESS
+==========================================================================
+
+O cliente que mais preocupava a carteira não tinha nenhum chamado aberto.
+
+Explico.
+
+Em empresas B2B, o churn quase nunca chega sem aviso. O problema é que os sinais ficam espalhados: o financeiro sabe quanto cada cliente vale e quais contratos foram cancelados. O suporte sabe quem está com chamado crítico parado há três semanas. E esses dois mundos raramente se cruzam.
+
+Resultado: o time de CS acaba priorizando quem grita mais alto, não quem tem mais receita em jogo.
+
+Para atacar isso, construí um Painel de Saúde da Carteira que junta as duas visões e responde em reais a uma pergunta simples:
+
+👉 "Quanto da minha receita recorrente está em risco hoje, em quais clientes, e por quê?"
+
+Como funciona, sem tecniquês:
+• Cada cliente recebe um Health Score de 0 a 100.
+• Chamados atrasados e problemas recorrentes derrubam o score.
+• O mesmo problema pesa mais num cliente de R$ 1 milhão do que num de R$ 60 mil.
+• O score vira "receita em risco", com recomendação do que fazer.
+
+Numa carteira de demonstração com 20 clientes e R$ 5 milhões de receita recorrente, o painel encontrou:
+
+📌 R$ 837 mil em risco (16,7% da carteira)
+📌 58% desse risco concentrado em só 5 clientes
+📌 O pior score da base NÃO era o cliente com mais dinheiro em jogo
+📌 O 1º do ranking não tinha nenhum ticket aberto: o alerta veio de um contrato cancelado no financeiro, algo que um painel só de suporte nunca mostraria
+
+E teve um aprendizado que eu valorizo bastante: esse mesmo cliente revelou uma distorção no meu próprio modelo. Um contrato pequeno cancelado estava pesando como se fosse o relacionamento inteiro. Score bom é score que se explica, e foi justamente isso que permitiu achar o problema.
+
+A lição para quem trabalha com CS e receita: retenção começa quando paramos de olhar sistemas isolados e passamos a olhar o cliente inteiro.
+
+Como vocês cruzam dados financeiros e de suporte hoje para antecipar churn? Curioso para saber 👇
+
+Projeto completo no GitHub: [link]
+
+#CustomerSuccess #Churn #Retencao #DadosParaNegocios #B2B #SaaS
+
+
+==========================================================================
+OPÇÃO 2 — FOCO TÉCNICO / ENGENHARIA
+==========================================================================
+
+E se o seu ERP legado e a API do seu helpdesk pudessem ser consultados por um agente de IA, sem um único pipeline de ETL?
+
+Foi esse o desafio que me propus no meu projeto mais recente: um Painel de Saúde de Carteira B2B construído sobre o Model Context Protocol (MCP), o padrão aberto da Anthropic para conectar LLMs a sistemas externos.
+
+🧩 A arquitetura
+
+Um servidor MCP em Python atua como camada de federação entre:
+→ um ERP (SQLite) com clientes e contratos
+→ um Helpdesk (API REST em FastAPI) com chamados de suporte
+
+Nenhum dado é copiado. O servidor consulta as duas fontes sob demanda, em paralelo (asyncio.gather), e faz o join em memória usando o cliente_id como chave.
+
+🤖 O workflow agêntico
+
+O servidor expõe 4 tools: descobrir o schema do ERP, rodar SQL somente leitura, buscar tickets e calcular o Health Score. Quando pergunto ao Claude "quais clientes Enterprise têm tickets críticos em aberto?", ninguém programou a sequência: o modelo lê o schema, escreve o SQL, chama a API e sintetiza a resposta.
+
+🔒 Decisões que fizeram diferença
+
+• SQL escrito por LLM exige defesa em profundidade: validação textual, conexão SQLite em modo read-only e um authorizer do próprio engine negando qualquer escrita.
+• A regra de negócio fica no código, não no prompt. O LLM orquestra e interpreta; o cálculo é determinístico e auditável, com todos os componentes devolvidos na resposta.
+• Mensagens de erro escritas para o agente: em vez de um stack trace, "Helpdesk indisponível, suba a API com X". O modelo consegue se recuperar sozinho.
+• No transporte stdio, o stdout é do protocolo. Um print() perdido quebra tudo, então todo log vai para stderr.
+
+📊 Na ponta
+
+O mesmo servidor MCP alimenta um dashboard em Streamlit e um gerador de relatórios, ambos falando com ele pelo protocolo, exatamente como o Claude Desktop faz. Escreve uma vez, consome de qualquer cliente.
+
+O que mais me chamou atenção: MCP muda a pergunta de "como integro este sistema com esta IA?" para "como exponho este sistema de forma que qualquer agente consiga usá-lo bem?". Descrições de tools, schemas e mensagens de erro viram parte do design da API.
+
+Stack: Python · MCP · FastAPI · Pydantic · httpx · asyncio · SQLite · Streamlit
+
+Código e documentação completa: [link]
+
+Quem aí já está experimentando MCP em sistemas legados? Quero trocar ideia sobre os desafios 👇
+
+#MCP #AgenticAI #Python #FastAPI #LLM #EngenhariaDeSoftware #IA

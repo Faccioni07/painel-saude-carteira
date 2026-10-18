@@ -1,0 +1,56 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Build / distribuição
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Ambientes virtuais
+venv/
+.venv/
+env/
+ENV/
+
+# Variáveis de ambiente / segredos
+.env
+.env.*
+
+# Testes / cobertura
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Streamlit (segredos locais)
+.streamlit/secrets.toml
+
+# --- Bancos de dados ---
+*.db
+*.sqlite
+*.sqlite3
+
+# --- Windows ---
+desktop.ini
+Thumbs.db
+ehthumbs.db
+$RECYCLE.BIN/
+*.lnk
+
+# --- macOS ---
+.DS_Store
+
+# --- IDEs ---
+.vscode/
+.idea/
+
+# --- Claude Code (configurações locais) ---
+.claude/settings.local.json

@@ -8,7 +8,8 @@
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
 
-![Dashboard](D:\MeusProjetos\Portfolio\Projeto CRM\imagem-dashboard.png)
+![Dashboard](<img width="1871" height="919" alt="imagem-dashboard" src="https://github.com/user-attachments/assets/48b54971-8197-4807-b6e7-09dbc64ba206" />
+)
 
 ---
 
